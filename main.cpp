@@ -17,6 +17,9 @@ unsigned int hash(const std::string & s)
 class HTRow
 {
 public:
+	HTRow(std::string key, double value)
+		 : key_(key), value_(value)
+	{}
 	std::string get_key() { return key_; }
 	void set_value(double v) { value_ = v; }
 private:
@@ -40,7 +43,8 @@ public:
 		for (int i = 0; i < table_.size(); ++i)
 		{
 			std::list < HTRow >::iterator iterator;
-			for (iterator = table_[i].begin(); iterator != table_[i].end(); ++iterator)
+			for (iterator = table_[i].begin(); iterator != table_[i].end();
+				 ++iterator)
 			{
 				HTRow * t = &(*iterator);
 				if (t->get_key() == key)
@@ -50,7 +54,10 @@ public:
 				}	
 			}
 		}
-		throw KeyError();
+		
+		unsigned int h = hash(key) % table_.size();
+		table_[h].push_back(HTRow(key, value));
+		
 	}
 
 	double get(const std::string & key)
