@@ -42,9 +42,10 @@ public:
 			std::list < HTRow >::iterator iterator;
 			for (iterator = table_[i].begin(); iterator != table_[i].end(); ++iterator)
 			{
-				if (*iterator->get_key() == key)
+				HTRow * t = &(*iterator);
+				if (t->get_key() == key)
 				{	
-					*iterator->set_value(value);
+					t->set_value(value);
 					return;
 				}	
 			}
